@@ -197,19 +197,19 @@ if __name__ == "__main__":
                 left_line = (100, 200, 300, 200)                      #Thanh trái
                 right_line = (340, 200, 540, 200)                     #Thanh phải                                      
 
-                cv2.imshow("Origninal image", lane_image)
+                
                 canny_image = canny(lane_image)
-                cv2.imshow("Canny", canny_image)
+                
                 cropped_image = region_of_interest(canny_image)
                 lines = cv2.HoughLinesP(cropped_image, 2, np.pi/180, 100, np.array([]), minLineLength = 40, maxLineGap = 5)
                 lines_image = display_line(lines, lane_image)
                 #cv2.imshow("Line Image", lines_image)
                 combo_image = cv2.addWeighted(lane_image, 0.8, lines_image, 1, 1)
-                cv2.imshow("Combo_image", combo_image)
+                
                 cv2.line(combo_image, (100, 200), (300, 200), (23, 238, 253), 1)
                 cv2.line(combo_image, (540, 200), (340, 200), (23, 238, 253), 1)
                 combo_image, left_intercept, right_intercept = display_intercepts(left_line, right_line, lines, combo_image)
-                cv2.imshow("XXX", combo_image)
+                
                 #Bên trái
                 a_left = MAX_ANGLE / (left_line[0] - left_line[2])
                 b_left = MAX_ANGLE - a_left * (320 - left_line[2])
