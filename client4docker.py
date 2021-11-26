@@ -117,12 +117,12 @@ def display_intercepts(left_line, right_line, lines, image):
     #print(right_points)
     if left_points.size != 0:
         averaged_left_point = np.mean(left_points, axis = 0, dtype = np.int32)
-        cv2.circle(combo_image, averaged_left_point, 1, (0, 0, 255), 2)
+        cv2.circle(combo_image, tuple(averaged_left_point), 1, (0, 0, 255), 2)
     else:
         averaged_left_point = None
     if right_points.size != 0:
         averaged_right_point = np.mean(right_points, axis = 0, dtype = np.int32)
-        cv2.circle(combo_image, averaged_right_point, 1, (0, 0, 255), 2)
+        cv2.circle(combo_image, tuple(averaged_right_point), 1, (0, 0, 255), 2)
     else:
         averaged_right_point = None
     
@@ -167,19 +167,19 @@ try:
         left_line = (100, 200, 300, 200)                      #Thanh trái
         right_line = (340, 200, 540, 200)                     #Thanh phải                                      
 
-        cv2.imshow("Origninal image", lane_image)
+        
         canny_image = canny(lane_image)
-        cv2.imshow("Canny", canny_image)
+        
         cropped_image = region_of_interest(canny_image)
         lines = cv2.HoughLinesP(cropped_image, 2, np.pi/180, 100, np.array([]), minLineLength = 40, maxLineGap = 5)
         lines_image = display_line(lines, lane_image)
         #cv2.imshow("Line Image", lines_image)
         combo_image = cv2.addWeighted(lane_image, 0.8, lines_image, 1, 1)
-        cv2.imshow("Combo_image", combo_image)
+        
         cv2.line(combo_image, (100, 200), (300, 200), (23, 238, 253), 1)
         cv2.line(combo_image, (540, 200), (340, 200), (23, 238, 253), 1)
         combo_image, left_intercept, right_intercept = display_intercepts(left_line, right_line, lines, combo_image)
-        cv2.imshow("XXX", combo_image)
+        
         #Bên trái
         a_left = MAX_ANGLE / (left_line[0] - left_line[2])
         b_left = MAX_ANGLE - a_left * (320 - left_line[2])
